@@ -3,6 +3,7 @@ import { login, logout, refreshAccessToken, signup } from "../controllers/auth.c
 
 const router=express.Router();
 
+//--> /api/auth configurations
 router.post('/signup', signup);
 router.post('/login', login);
 router.post('/logout', logout);
