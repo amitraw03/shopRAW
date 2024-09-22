@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
+// to check user is logged in or not
 export const protectRoute = async (req, res, next) => {
     try {
         //checking user is active or not so ny checking its accessToken
@@ -34,7 +35,7 @@ export const protectRoute = async (req, res, next) => {
     }
 };
 
-
+//to check logged in user is admin or not
 export const adminRoute = (req, res, next) => {
     if(req.user && req.user.role === "admin"){
         next();
