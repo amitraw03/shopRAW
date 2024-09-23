@@ -1,5 +1,6 @@
 import { stripe } from "../lib/stripe.js";
 import { Coupon } from "../models/coupon.model.js";
+import { Order } from "../models/order.model.js";
 
 
 export const createCheckoutSession = async (req, res) => {
@@ -85,7 +86,7 @@ async function createStripeCoupon(discountPercentage){
     return coupon.id;
 };
 
-// utility function for creating new coupon if price > 20000
+// utility function for creating new coupon if price > 20000 cents or 200$
 async function createNewCoupon(userId){
       await Coupon.findOneAndDelete({userId});
 
@@ -99,5 +100,51 @@ async function createNewCoupon(userId){
     await newCoupon.save();
 
     return newCoupon;
+}
+
+// checking session status by sessioId created in above controller
+export const checkoutSuccess = async (req, res) => {
+    try {
+       const {sessionId} = req.body;
+       const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+       if(session.payment_status === 'paid'){
+
+          if(session.metadata.couponCode){
+              await Coupon.findOneAndUpdate({
+                code: session.metadata.couponCode,
+                userId: session.metadata.userId},
+                 { 
+                  isActive: false,
+              })
+          }
+
+         // create a new Order 
+         const products = JSON.parse(session.metadata.products);
+
+         const newOrder = new Order({
+             user: session.metadata.userId,
+             products: products.map((p) => ({
+                 product: p.id,
+                 quantity: p.quantity,
+                 price: p.price
+             })),
+             totalAmount: session.amount_total / 100,
+             stripeSessionId: sessionId
+         });
+         await newOrder.save();
+
+         res.status(200).json({
+            success: true,
+            message: 'Payment Successful, Order created successfully and coupon deactivated if used',
+            orderId: newOrder._id
+         }) 
+       } 
+    } 
+    catch (error) {
+        console.log('Error in processing checkoutSuccess ', error.message);
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        
+    }
 }
 
