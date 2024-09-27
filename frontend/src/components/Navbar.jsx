@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUserStore } from '../stores/useUserStore';
 
 const Navbar = () => {
-  // Mock user and admin states (replace with actual state management later)
-  const [user, setUser] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
-  const [cart, setCart] = useState([]);
-
-  // Mock logout function
-  const logout = () => {
-    setUser(false);
-  };
+    const { user, logout } = useUserStore();
+    const isAdmin = user?.role === "admin";
+    const [cart, setCart] = useState([]);
 
   return (
     <header className='fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-emerald-800'>
       <div className='container mx-auto px-4 py-3'>
         <div className='flex flex-wrap justify-between items-center'>
-          <Link to='/' className='flex items-center space-x-2'>
+          <Link to={'/'} className='flex items-center space-x-2'>
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 hover:from-blue-500 hover:to-emerald-400 transition-all duration-300">
               <span style={{ fontFamily: 'cursive' }}>R</span>
               <span className="text-2xl font-bold text-emerald-400">-Store</span>
@@ -81,6 +76,7 @@ const Navbar = () => {
                   <UserPlus className='mr-2' size={18} />
                   Sign Up
                 </Link>
+
                 <Link
                   to={"/login"}
                   className='bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
