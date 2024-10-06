@@ -37,7 +37,7 @@ app.use(cors({
 const PORT= process.env.PORT || 7000;
 
 //configurations--
-app.use(express.json({limit :"15kb"})) //data coming in backend as json format
+app.use(express.json({limit :"15mb"})) //data coming in backend as json format
 app.use(express.urlencoded({extended:true,limit :"15kb"}))
 app.use(express.static("public"))  //by setting this config, our express assume local folders as static
 app.use(cookieParser())
