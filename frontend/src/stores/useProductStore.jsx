@@ -33,15 +33,24 @@ export const useProductStore = create((set, get) => ({
 		set({ loading: true });
 		try {
 			const response = await axios.get("/products");
-			//  console.log("response.data :", response.data); 
-			set({ 
-				products: Array.isArray(response.data) ? response.data : [],
-				loading: false 
-			});
+			console.log(response.data);
+			set({ products: response.data, loading: false });
 		} catch (error) {
-			console.error("Failed to fetch products:", error);
-			set({ products: [], loading: false });
-			toast.error(error.response?.data?.error || "Failed to fetch products");
+			set({ error: "Failed to fetch products", loading: false });
+			toast.error(error.response?.data?.error|| "Failed to fetch products");
+		}
+	},
+
+	//fetching the products by category which user clicked
+	fetchProductsByCategory: async (category) => {
+		set({ loading: true });
+		try {
+			const response = await axios.get(`/products/category/${category}`);
+			
+			set({ products: response.data.products, loading: false });
+		} catch (error) {
+			set({ error: "Failed to fetch products", loading: false });
+			toast.error(error.response.data.error || "Failed to fetch products");
 		}
 	},
 

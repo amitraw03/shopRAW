@@ -123,7 +123,7 @@ export const getProductsByCategory = async (req, res) => {
     const {category} = req.params;
    try {
     const products = await Product.find({category:category});
-    res.status(200).json(products);
+    res.status(200).json({products});  // i am sending as object to frontend
     
    } catch (error) {
     console.log('Error in getProductsByCategory controller', error.message);
