@@ -16,7 +16,7 @@ export const useProductStore = create((set, get) => ({
           set((state) => {
             const currentProducts = Array.isArray(state.products) ? state.products : [];
             return {
-              products: [...currentProducts, res.data],
+              products: [...currentProducts, res.data], // why not res.data.prodcuts becoz we didn't send it as object format
               loading: false,
             };
           });
