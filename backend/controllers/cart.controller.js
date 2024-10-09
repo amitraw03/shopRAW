@@ -65,8 +65,8 @@ export const removeAllFromCart = async (req, res) => {
 
 export const updateCartProductQuantity = async (req, res) => {
     try {
-        const {id:productId} = req.params; // destructuring id into productId
-        const quantity = req.body;
+        const {id: productId} = req.params; // destructuring id into productId
+        const { quantity } = req.body; // its coming from frontend in braces
         const user = req.user;
         // checking if product is already in cart
         const existingItem = user.cartItems.find((item) => item.id === productId);

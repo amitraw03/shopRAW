@@ -9,29 +9,30 @@ export const useCartStore = create((set, get) => ({
 	subtotal: 0,
 	isCouponApplied: false,
 
-	// getMyCoupon: async () => {
-	// 	try {
-	// 		const response = await axios.get("/coupons");
-	// 		set({ coupon: response.data });
-	// 	} catch (error) {
-	// 		console.error("Error fetching coupon:", error);
-	// 	}
-	// },
-	// applyCoupon: async (code) => {
-	// 	try {
-	// 		const response = await axios.post("/coupons/validate", { code });
-	// 		set({ coupon: response.data, isCouponApplied: true });
-	// 		get().calculateTotals();
-	// 		toast.success("Coupon applied successfully");
-	// 	} catch (error) {
-	// 		toast.error(error.response?.data?.message || "Failed to apply coupon");
-	// 	}
-	// },
-	// removeCoupon: () => {
-	// 	set({ coupon: null, isCouponApplied: false });
-	// 	get().calculateTotals();
-	// 	toast.success("Coupon removed");
-	// },
+    // coupon all functionalities
+	getMyCoupon: async () => {
+		try {
+			const response = await axios.get("/coupons");
+			set({ coupon: response.data });
+		} catch (error) {
+			console.error("Error fetching coupon:", error);
+		}
+	},
+	applyCoupon: async (code) => {
+		try {
+			const response = await axios.post("/coupons/validate", { code });
+			set({ coupon: response.data, isCouponApplied: true });
+			get().calculateTotals();
+			toast.success("Coupon applied successfully");
+		} catch (error) {
+			toast.error(error.response?.data?.message || "Failed to apply coupon");
+		}
+	},
+	removeCoupon: () => {
+		set({ coupon: null, isCouponApplied: false });
+		get().calculateTotals();
+		toast.success("Coupon removed");
+	},
     
     // to get the products data from backend for cart Page
 	getCartItems: async () => {
@@ -46,9 +47,9 @@ export const useCartStore = create((set, get) => ({
 		}
 	},
 
-	// clearCart: async () => {
-	// 	set({ cart: [], coupon: null, total: 0, subtotal: 0 });
-	// },
+	clearCart: async () => {
+		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
+	},
     
     //function for handling cart functionalities
 	addToCart: async (product) => {
@@ -71,26 +72,28 @@ export const useCartStore = create((set, get) => ({
 		}
 	},
 
+	// function for removing product from cart
+	removeFromCart: async (productId) => {
+		await axios.delete(`/cart`, { data: { productId } });
+		set((prevState) => ({ cart: prevState.cart.filter((item) => item._id !== productId) }));
+		get().calculateTotals();
+	},
 
-	// removeFromCart: async (productId) => {
-	// 	await axios.delete(`/cart`, { data: { productId } });
-	// 	set((prevState) => ({ cart: prevState.cart.filter((item) => item._id !== productId) }));
-	// 	get().calculateTotals();
-	// },
-	// updateQuantity: async (productId, quantity) => {
-	// 	if (quantity === 0) {
-	// 		get().removeFromCart(productId);
-	// 		return;
-	// 	}
+	// functn to update qty in cart
+	updateQuantity: async (productId, quantity) => {
+		if (quantity === 0) {
+			get().removeFromCart(productId);
+			return;
+		}
 
-	// 	await axios.put(`/cart/${productId}`, { quantity });
-	// 	set((prevState) => ({
-	// 		cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
-	// 	}));
-	// 	get().calculateTotals();
-	// },
+		await axios.put(`/cart/${productId}`, { quantity });
+		set((prevState) => ({
+			cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
+		}));
+		get().calculateTotals();
+	},
 
-    // utilitu functn for cart UI updation
+    // utility functn for cart UI updation & total and subtotal amnt calculation
 	calculateTotals: () => {
 		const { cart, coupon } = get();
 		const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
