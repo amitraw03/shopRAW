@@ -13,14 +13,19 @@ export const useCartStore = create((set, get) => ({
 	getMyCoupon: async () => {
 		try {
 			const response = await axios.get("/coupons");
+			 console.log(response.data);
+
 			set({ coupon: response.data });
 		} catch (error) {
 			console.error("Error fetching coupon:", error);
 		}
 	},
+
+
 	applyCoupon: async (code) => {
 		try {
 			const response = await axios.post("/coupons/validate", { code });
+			// console.log(response.data);  
 			set({ coupon: response.data, isCouponApplied: true });
 			get().calculateTotals();
 			toast.success("Coupon applied successfully");
@@ -48,8 +53,16 @@ export const useCartStore = create((set, get) => ({
 	},
 
 	clearCart: async () => {
-		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
-	},
+		try {
+		  // Clear cart in the backend too so that it will not fetch the old getCartItems
+		  await axios.delete("/cart");
+		  // Clear cart in the frontend state
+		  set({ cart: [], coupon: null, total: 0, subtotal: 0 });
+		} catch (error) {
+		  console.error("Error clearing cart:", error);
+		  toast.error("Failed to clear cart");
+		}
+	  },
     
     //function for handling cart functionalities
 	addToCart: async (product) => {

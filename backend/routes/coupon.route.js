@@ -6,7 +6,7 @@ const router = express.Router();
 
 //--> /api/coupons configurations
 router.get('/', protectRoute , getCoupon );
-router.get('/validate', protectRoute , validateCoupon );
+router.post('/validate', protectRoute , validateCoupon );
 
 
 export default router;

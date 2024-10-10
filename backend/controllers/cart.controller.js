@@ -81,6 +81,9 @@ export const updateCartProductQuantity = async (req, res) => {
             }
             existingItem.quantity = quantity;  // qty will be updated
             await user.save();
+            
+            
+
             res.json(user.cartItems);
         }
         else{

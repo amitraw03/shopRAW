@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { useCartStore } from "../stores/useCartStore";
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js"; // for showing payment page
 import axios from "../lib/axios";
 
 const stripePromise = loadStripe(
-	"pk_test_51KZYccCoOZF2UhtOwdXQl3vcizup20zqKqT9hVUIsVzsdBrhqbUI2fE0ZdEVLdZfeHjeyFXtqaNsyCJCmZWnjNZa00PzMAjlcL"
+	"pk_test_51Q2DdfRsQiCvSFlkYicipNFMFlVECFe8RoO5f4WyzlBMf0jDjtrBhkOgEMpYXwtoe4BRbAupqRVPaqi7T7NlEcAm00xom2e1cm"
 );
 
 const OrderSummary = () => {
@@ -16,7 +16,8 @@ const OrderSummary = () => {
 	const formattedSubtotal = subtotal.toFixed(2);
 	const formattedTotal = total.toFixed(2);
 	const formattedSavings = savings.toFixed(2);
-
+    
+	// handling payment endpoint API
 	const handlePayment = async () => {
 		const stripe = await stripePromise;
 		const res = await axios.post("/payments/create-checkout-session", {
@@ -24,7 +25,7 @@ const OrderSummary = () => {
 			couponCode: coupon ? coupon.code : null,
 		});
 
-		const session = res.data;
+		const session = res.data;  // this is the session id created in stripe
 		const result = await stripe.redirectToCheckout({
 			sessionId: session.id,
 		});

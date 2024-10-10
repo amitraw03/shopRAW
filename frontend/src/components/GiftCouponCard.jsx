@@ -9,8 +9,11 @@ const GiftCouponCard = () => {
 
 	useEffect(() => {
 		getMyCoupon();
+	   
 	}, [getMyCoupon]);
 
+
+	// for showing coupon code on UI after executing functn getMyCoupon
 	useEffect(() => {
 		if (coupon) setUserInputCode(coupon.code);
 	}, [coupon]);
@@ -82,7 +85,7 @@ const GiftCouponCard = () => {
 				</div>
 			)}
 
-			{coupon && (
+			{coupon && !isCouponApplied && (
 				<div className='mt-4'>
 					<h3 className='text-lg font-medium text-gray-300'>Your Available Coupon:</h3>
 					<p className='mt-2 text-sm text-gray-400'>
