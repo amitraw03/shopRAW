@@ -3,7 +3,7 @@ import {  useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import AnalyticsTab from "../components/AnalyticsTab";
-import CreateProductFrom from "../components/createProductFrom";
+import CreateProductFrom from "../components/createProductForm";
 import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";  
 
