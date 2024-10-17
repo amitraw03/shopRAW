@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
+import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./lib/db.js";
@@ -36,6 +37,8 @@ app.use(cors({
 
 const PORT= process.env.PORT || 7000;
 
+const __dirname = path.resolve();
+
 //configurations--
 app.use(express.json({limit :"15mb"})) //data coming in backend as json format
 app.use(express.urlencoded({extended:true,limit :"15kb"}))
@@ -49,6 +52,14 @@ app.use('/api/cart',cartRoutes);
 app.use('/api/coupons',couponRoutes);
 app.use('/api/payments',paymentRoutes);
 app.use('/api/analytics',analyticsRoutes);
+
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
