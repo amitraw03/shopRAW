@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes slowScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animate-slow-scroll {
+    animation: slowScroll 30s linear infinite;
+  }
+  
+  .animate-slow-scroll:hover {
+    animation-play-state: paused;
+  }
