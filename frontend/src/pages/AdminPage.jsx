@@ -3,7 +3,7 @@ import {  useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import AnalyticsTab from "../components/AnalyticsTab";
-import CreateProductFrom from "../components/createProductForm";
+import CreateProductForm from "../components/createProductForm";
 import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";  
 
@@ -59,7 +59,7 @@ const AdminPage = () => {
 						</button>
 					))}
 				</div>
-				{activeTab === "create" && <CreateProductFrom />}
+				{activeTab === "create" && <CreateProductForm />}
 				{activeTab === "products" && <ProductsList />}
 				{activeTab === "analytics" && <AnalyticsTab />}
 			</div>
