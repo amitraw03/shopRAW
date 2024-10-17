@@ -123,8 +123,9 @@ export const useCartStore = create((set, get) => ({
 		if (subtotal >= 100 && !get().coupon) {
 			get().generateCoupon();
 		}
-		else if (subtotal < 100 && (subtotal > 97 || subtotal > 98) && get().coupon) {
-			get().removeCoupon();
+		else if (subtotal < 100 && get().coupon) {
+			set({ coupon: null, isCouponApplied: false });
+		    get().calculateTotals();
 		}
 	},
 

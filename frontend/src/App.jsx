@@ -15,6 +15,7 @@ import CartPage from "./pages/CartPage";
 import { useCartStore } from "./stores/useCartStore";
 import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
 import PurchaseCancelPage from "./pages/PurchaseCancelPage";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
         </div>
       </div>
 
-      <div className="relative z-50 pt-20">
+      <div className="flex-grow relative z-50 pt-20">
         
         <Navbar />
         <Routes>
@@ -62,7 +63,8 @@ function App() {
 					<Route path='/purchase-cancel' element={user ? <PurchaseCancelPage /> : <Navigate to='/login' />} />
 
         </Routes>
-        
+         
+        <Footer />
       </div>
       <Toaster/>
     </div>
