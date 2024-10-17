@@ -16,7 +16,7 @@ const Navbar = () => {
           <Link to={'/'} className='flex items-center space-x-2'>
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 hover:from-blue-500 hover:to-emerald-400 transition-all duration-300">
               <span style={{ fontFamily: 'cursive' }}>R</span>
-              <span className="text-2xl font-bold text-emerald-400">-Store</span>
+              <span className="text-2xl font-extrabold text-emerald-400 ">-Store</span>
             </span>
 
           </Link>

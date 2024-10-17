@@ -18,3 +18,27 @@
   .animate-slow-scroll:hover {
     animation-play-state: paused;
   }
+
+  @keyframes textReveal {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  
+  .animate-text-reveal {
+    animation: textReveal 2s linear forwards;
+  }
+  
+  .animate-text-reveal::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #34d399; /* text-emerald-400 */
+    animation: textReveal 2s linear forwards;
+  }
