@@ -3,9 +3,9 @@ import {  useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import AnalyticsTab from "../components/AnalyticsTab";
-import CreateProductForm from "../components/createProductForm";
 import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";  
+import CreateProductForm from "../components/CreateProductForm";
 
 const tabs = [
 	{ id: "create", label: "Create Product", icon: PlusCircle },

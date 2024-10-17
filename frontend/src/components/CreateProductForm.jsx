@@ -16,13 +16,13 @@ const CreateProductForm = () => {
 
 	const { createProduct, loading } = useProductStore();
 
-    const handleSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			await createProduct(newProduct);
 			setNewProduct({ name: "", description: "", price: "", category: "", image: "" });
 		} catch {
-			console.error("Error in the FORM", error);
+			console.log("error creating a product");
 		}
 	};
 
