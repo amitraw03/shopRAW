@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import CategoryItem from "../components/CategoryItem";
 import FeaturedProducts from "../components/FeaturedProducts";
 import { useProductStore } from "../stores/useProductStore";
+import ReactPlayer from 'react-player';
 
 const categories = [
 	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
@@ -25,12 +26,32 @@ const HomePage = () => {
 			<div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14'>
 				<h1 className='text-center text-5xl sm:text-6xl font-bold font-serif text-emerald-400 mb-4'>
 					<span className="animate-text-reveal inline-block">
-					Explore New Collections
+						Explore New Collections
 					</span>
 				</h1>
 				<p className='text-center text-xl text-gray-300 mb-12 italic'>
 					Upgrade your style with eco-friendly innovations
 				</p>
+
+				{/* Video player */}
+				{/* <div className="relative pt-[33%] mb-8 -mt-8 bg-gray-950">
+					<ReactPlayer
+						url="/vid1.mp4"
+						playing
+						loop
+						muted
+						width="100%"
+						height="100%"
+						className="absolute top-0 left-0"
+						config={{
+							file: {
+								attributes: {
+									controlsList: 'nodownload',
+								},
+							},
+						}}
+					/>
+				</div> */}
 
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 					{categories.map((category) => (
