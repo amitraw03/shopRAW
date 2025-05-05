@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import path from "path";   // for making production build
-import cookieParser from "cookie-parser";  // for generating cookies
+import cookieParser from "cookie-parser";  // for reading cookies in backend
 import cors from "cors";
 import { connectDB } from "./lib/db.js";
 
@@ -13,7 +13,7 @@ const app =express();
 // Immediately invoke connectDB
 connectDB()
   .then(() => {
-    console.log("Database connected successfully");
+    console.log("Database connected successfully🔥");
   })
   .catch((err) => {
     console.error("Database connection failed:", err);
